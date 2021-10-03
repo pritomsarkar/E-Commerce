@@ -2,10 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Row, Col, Image, ListGroup, Card, Button } from "react-bootstrap";
-import Rating from "../Rating";
+import Rating from "../components/Rating";
 
+const initalRating = {
+  name: "",
+  image: "",
+  rating: 0,
+  numReviews: 0,
+  price: 0,
+  countInStock: 0,
+  description: 0,
+};
 const ProductScreen = ({ match }) => {
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(initalRating);
   const { id } = match.params;
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,8 +40,8 @@ const ProductScreen = ({ match }) => {
             </ListGroup.Item>
             <ListGroup.Item>
               <Rating
-                value={product.rating}
-                text={`${product.numReviews} reviews`}
+                value={product.rating || 0}
+                text={`${product.numReviews || 0} reviews`}
               />
             </ListGroup.Item>
             <ListGroup.Item>Price : ₹{product.price}</ListGroup.Item>
@@ -60,8 +69,9 @@ const ProductScreen = ({ match }) => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Button
-                  className="btn-block"
+                  className="col-12"
                   type="button"
+                  style={{ margin: "auto" }}
                   disabled={product.countInStock === 0}
                 >
                   Add To Cart
